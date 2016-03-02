@@ -55,6 +55,10 @@
             $this->setDescription($new_description);
         }
 
+        function delete() {
+          $GLOBALS['DB']->exec("DELETE FROM tasks WHERE id = {$this->getId()};");
+        }
+
         static function deleteALL(){
             $GLOBALS['DB']->exec("DELETE FROM tasks;");
         }
