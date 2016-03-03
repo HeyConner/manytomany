@@ -95,5 +95,43 @@
 
             $this->assertEquals($test_task, $result);
         }
+
+        function testAddCategory(){
+            $name = "Work Stuff";
+            $id = 1;
+            $test_category = new Category($name, $id);
+            $test_category->save();
+
+            $description = "File reports";
+            $id2 = 2;
+            $test_task = new Task($description, $id2);
+            $test_task->save();
+
+            $test_task->addCategory($test_category);
+
+            $this->assertEquals($test_task->getCategories(), [$test_category]);
+        }
+
+        function testGetCategories(){
+            $name = "Work Stuff";
+            $id = 1;
+            $test_category = new Category($name, $id);
+            $test_category->save();
+
+            $name2 = "Volunteer Stuff";
+            $id2= 2;
+            $test_category2 = new Category($name2, $id2);
+            $test_category2->save();
+
+            $description = "File Reports";
+            $id3 = 3;
+            $test_task = new Task($description, $id3);
+            $test_task->save();
+
+            $test_task->addCategory($test_category);
+            $test_task->addCategory($test_category2);
+
+            $this->assertEquals($test_task->getCategories(), [$test_category, $test_category2]);
+        }
     }
 ?>

@@ -63,28 +63,30 @@
             $GLOBALS['DB']->exec("DELETE FROM tasks;");
         }
 
-        function addTask($task)
-        {
-            $GLOBALS['DB']->exec("INSERT INTO categories_tasks (category_id, task_id) VALUES ({$this->getId()}, {$task->getId()});");
+        function addCategory($category){
+            $GLOBALS['DB']->exec("INSERT INTO categories_tasks (category_id, task_id) VALUES ({$category->getId()}, {$this->getId()});");
         }
 
-        function getTasks()
-        {
-            $query = $GLOBALS['DB']->query("SELECT task_id FROM categories_tasks WHERE category_id = {$this->getId()};");
-            $task_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+        function getCategories(){
+            $query = $GLOBALS['DB']->query("SELECT category_id FROM categories_tasks WHERE task_id = {$this->getId()};");
+            // [["id":'2', "description":'wash the dog'], []]
+            // [['category_id':'2'],['category_id':'5'],['category_id':'7']]
+            //
+            $category_ids = $query->fetchAll(PDO::FETCH_ASSOC);
 
-            $tasks = array();
-            foreach($task_ids as $id) {
-                $task_id = $id['task_id'];
-                $result = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE id = {$task_id};");
-                $returned_task = $result->fetchAll(PDO::FETCH_ASSOC);
+            $categories = array();
+            foreach($category_ids as $id){
+                $category_id = $id['category_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM categories WHERE id = {$category_id};");
+                // [["name":'home', "id":'5']]
+                $returned_category = $result->fetchAll(PDO::FETCH_ASSOC);
 
-                $description = $returned_task[0]['description'];
-                $id = $returned_task[0]['id'];
-                $new_task = new Task($description, $id);
-                array_push($tasks, $new_task);
+                $name = $returned_category[0]['name'];
+                $id = $returned_category[0]['id'];
+                $new_category = new Category($name, $id);
+                array_push($categories, $new_category);
             }
-            return $tasks;
+            return $categories;
         }
     }
 ?>
