@@ -16,14 +16,15 @@
 
     <h4>Add a task</h4>
 
-    <form action='/categories/{{ category.getId }}' method='post'>
+    <form action='/categories/{{ found_category.getId }}' method='post'>
       <label for="description">Add a New Task</label>
       <input id="description" name="description" type="text">
       <p>
         {% for category in categories %}
-          {{ category.getName }}<input type="checkbox" name="category_id" value="{{ category.getId }}"><br/>
+          {{ category.getName }}<input type="checkbox" name="category_id[]" value="{{ category.getId }}"><br/>
         {% endfor %}
       </p>
+      <button type="submit" name="button">Go</button>
     </form>
     <p><a href='/'>Home</a></p>
 </body>

@@ -36,6 +36,17 @@
         return $app['twig']->render("category.html.twig", array('found_category' => $category, 'tasks' => $category->getTasks(), 'categories' => Category::getAll()));
     });
 
+    $app->post("/categories/{id}", function($id) use ($app){
+        $category = Category::find($id);
+        $new_task = new Task($_POST['description']);
+        $new_task->save();
+        foreach ($_POST['category_id'] as $cat_id)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO categories_tasks (category_id, task_id) VALUES({$cat_id}, {$new_task->getId()});");
+        }
+        return $app['twig']->render("category.html.twig", array('found_category' => $category, 'tasks' => $category->getTasks(), 'categories' => Category::getAll()));
+    });
+
     $app->post('/delete_categories', function() use ($app){
         Category::deleteAll();
         return $app['twig']->render('categories.html.twig', array('categories' => Category::getAll()));
