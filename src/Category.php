@@ -75,8 +75,8 @@
             }
             return $tasks;
         }
-        function delete(){
-            $GLOBALS['DB']->exec("DELETE FROM categories_tasks WHERE task_id = {$this->getId()};");
+        function deleteCategoryTasks(){
+            $GLOBALS['DB']->exec("DELETE FROM categories_tasks WHERE category_id = {$this->getId()};");
         }
     }
 
