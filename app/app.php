@@ -52,6 +52,15 @@
         return $app['twig']->render('categories.html.twig', array('categories' => Category::getAll()));
     });
 
+    $app->post("/delete_category_tasks/{id}", function($id) use ($app){
+        $category = Category::find($id);
+        $category_tasks = $category->getTasks();
+        foreach($category_tasks as $task){
+            $task->delete();
+        }
+        return $app['twig']->render("category.html.twig", array('found_category' => $category, 'tasks' => $category->getTasks(), 'categories' => Category::getAll()));
+    });
+
 
     return $app;
 ?>

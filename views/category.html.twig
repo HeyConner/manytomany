@@ -26,6 +26,10 @@
       </p>
       <button type="submit" name="button">Go</button>
     </form>
+
+    <form action="/delete_category_tasks/{{ found_category.getId }}" method="post">
+      <button type="submit"> Delete Tasks</button>
+    </form>
     <p><a href='/'>Home</a></p>
 </body>
 </html>
